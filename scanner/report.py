@@ -24,7 +24,12 @@ def generate_report(waste_findings, cost_map):
         print(f"\n[{finding['type']}] {finding['name']}")
         print(f"  Owner       : {finding['owner']}")
         print(f"  Environment : {finding['environment']}")
-        print(f"  Location    : {finding['location']}")
+        print(f"  Location    : {finding.get('location', 'N/A')}")
+        # add this line after location in report.py
+        if finding.get('description'):
+            print(f"  Description : {finding['description']}")
+        if finding.get('impact'):
+            print(f"  Impact      : {finding['impact']}")
         print(f"  Monthly Cost: ${cost:.2f}")
     
     print("\n" + "=" * 40)

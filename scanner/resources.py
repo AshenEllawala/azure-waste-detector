@@ -1,5 +1,5 @@
 import os
-from auth import get_credential, get_subscription_id
+from scanner.auth import get_credential, get_subscription_id
 from azure.mgmt.resourcegraph import ResourceGraphClient
 from azure.mgmt.resourcegraph.models import QueryRequest
 from datetime import datetime
@@ -7,17 +7,17 @@ from datetime import datetime
 def get_all_resources():
     credential = get_credential()
     subscription_id = get_subscription_id()
-    
+
     client = ResourceGraphClient(credential)
-    
+
     query = QueryRequest(
         query="""
         Resources
-        | project name, type, location, tags, properties
+        | project name, type, location, tags, properties, managedBy
         """,
         subscriptions=[subscription_id]
-    )
-    
+)
+
     result = client.resources(query)
     return result.data
 
@@ -26,12 +26,14 @@ def detect_orphaned_disks(resources):
     
     for resource in resources:
         if resource['type'] == 'microsoft.compute/disks':
-            if not resource['properties'].get('managedBy'):
+            if not resource.get('managedBy'):
+                raw_tags = resource.get('tags') or {}
+                tags = {k.strip().lower(): v for k, v in raw_tags.items()}
                 orphaned_disks.append({
                     'name': resource['name'],
                     'type': 'Orphaned Disk',
-                    'owner': resource.get('tags', {}).get('owner', 'unknown'),
-                    'environment': resource.get('tags', {}).get('environment', 'unknown'),
+                    'owner': tags.get('owner', 'unknown'),
+                    'environment': tags.get('environment', 'unknown'),
                     'location': resource['location']
                 })
     
@@ -42,12 +44,16 @@ def detect_orphaned_ips(resources):
     
     for resource in resources:
         if resource['type'] == 'microsoft.network/publicipaddresses':
+
+            
             if not resource['properties'].get('ipConfiguration'):
+                raw_tags = resource.get('tags') or {}
+                tags = {k.strip().lower(): v for k, v in raw_tags.items()}
                 orphaned_ips.append({
                     'name': resource['name'],
                     'type': 'Orphaned Public IP',
-                    'owner': resource.get('tags', {}).get('owner', 'unknown'),
-                    'environment': resource.get('tags', {}).get('environment', 'unknown'),
+                    'owner': tags.get('owner', 'unknown'),
+                    'environment': tags.get('environment', 'unknown'),
                     'location': resource['location']
                 })
     
@@ -59,7 +65,8 @@ def detect_idle_vms(resources):
     
     for resource in resources:
         if resource['type'] == 'microsoft.compute/virtualmachines':
-            tags = resource.get('tags', {})
+            raw_tags = resource.get('tags') or {}
+            tags = {k.strip().lower(): v for k, v in raw_tags.items()}
             environment = tags.get('environment', '')
             power_state = resource['properties'].get('extended', {}).get('instanceView', {}).get('powerState', {}).get('displayStatus', '')
             

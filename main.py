@@ -1,7 +1,7 @@
-from resources import scan_all_waste
-from costs import get_resource_costs
-from report import generate_report
-from advisor import get_advisor_recommendations
+from scanner.resources import scan_all_waste
+from scanner.costs import get_resource_costs
+from scanner.report import generate_report
+from scanner.advisor import get_advisor_recommendations
 
 def main():
     print("Starting Azure Waste Detector...")
