@@ -14,11 +14,12 @@ def get_advisor_recommendations():
     
     for rec in advisor_recs:
         if rec.category == "Cost" and \
-           rec.impacted_field != "Microsoft.Subscriptions/subscriptions":
-            # skip if already seen
+        rec.impacted_field != "Microsoft.Subscriptions/subscriptions":
+            unique_key = f"{rec.short_description.problem}-{rec.impacted_field}"
+
             if unique_key in seen:
                 continue
-                
+
             seen.add(unique_key)
             recommendations.append({
                 'name': rec.impacted_field or rec.impacted_value or 'unknown',
@@ -27,7 +28,7 @@ def get_advisor_recommendations():
                 'impact': rec.impact,
                 'owner': 'unknown',
                 'environment': 'unknown',
-                'location': 'N/A'
+                'location': 'N/A',
             })
-    
+
     return recommendations
