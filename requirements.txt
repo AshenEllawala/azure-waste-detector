@@ -1,0 +1,9 @@
+azure-identity
+azure-mgmt-resource
+azure-mgmt-compute
+azure-mgmt-network
+azure-mgmt-advisor
+azure-mgmt-costmanagement
+azure-mgmt-resourcegraph
+requests
+python-dotenv
