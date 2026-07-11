@@ -2,25 +2,25 @@ name: Evening VM Scanner
 
 on:
   schedule:
-    - cron: '50 16 * * *'
+    - cron: "35 10 * * *"
   workflow_dispatch:
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-      
+          python-version: "3.11"
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      
+
       - name: Run VM scanner
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
