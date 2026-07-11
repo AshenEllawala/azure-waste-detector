@@ -61,23 +61,24 @@ def detect_orphaned_ips(resources):
 
 def detect_idle_vms(resources):
     idle_vms = []
-    current_hour = datetime.now().hour
     
     for resource in resources:
         if resource['type'] == 'microsoft.compute/virtualmachines':
+            print(f"VM found: {resource['name']}")
             raw_tags = resource.get('tags') or {}
             tags = {k.strip().lower(): v for k, v in raw_tags.items()}
             environment = tags.get('environment', '')
-            power_state = resource['properties'].get('extended', {}).get('instanceView', {}).get('powerState', {}).get('displayStatus', '')
+            print(f"Environment: '{environment}'")
+            print(f"Is dev/test: {environment in ['dev', 'test']}")
             
-            if environment in ['dev', 'test'] and current_hour >= 18:
+            if environment in ['dev', 'test']:
                 idle_vms.append({
                     'name': resource['name'],
                     'type': 'Idle Dev/Test VM',
                     'owner': tags.get('owner', 'unknown'),
                     'environment': environment,
                     'location': resource['location'],
-                    'power_state': power_state
+                    'power_state': ''
                 })
     
     return idle_vms
