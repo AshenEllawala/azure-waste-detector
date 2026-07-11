@@ -64,12 +64,9 @@ def detect_idle_vms(resources):
     
     for resource in resources:
         if resource['type'] == 'microsoft.compute/virtualmachines':
-            print(f"VM found: {resource['name']}")
             raw_tags = resource.get('tags') or {}
             tags = {k.strip().lower(): v for k, v in raw_tags.items()}
             environment = tags.get('environment', '')
-            print(f"Environment: '{environment}'")
-            print(f"Is dev/test: {environment in ['dev', 'test']}")
             
             if environment in ['dev', 'test']:
                 idle_vms.append({
