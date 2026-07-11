@@ -2,7 +2,7 @@ name: Evening VM Scanner
 
 on:
   schedule:
-    - cron: "35 10 * * *"
+    - cron: "30 10 * * *"
   workflow_dispatch:
 
 jobs:
