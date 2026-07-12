@@ -112,3 +112,30 @@ keys before any comparison.
 Ashen Ellawala
 BICT (Network Technology) — University of Kelaniya
 AZ-900 Certified | Azure Cloud & DevOps Portfolio
+
+## Scheduling Architecture
+
+Two scheduling mechanisms implemented:
+
+**Current (GitHub Actions):** Runs daily with variable 
+timing due to free tier queue delays of 15-60 minutes.
+
+**Production Design (Azure Functions Timer Trigger):** 
+Implemented and tested locally. Fires at exactly 6pm 
+Sri Lanka time daily on Azure's dedicated infrastructure 
+with zero delay. Deployment requires paid subscription 
+— student subscription network restrictions blocked 
+the final deployment step.
+
+## Lessons Learned
+
+- GitHub Actions free tier schedules are best-effort — 
+  not suitable for time-critical production automation
+- Azure Functions timer triggers run on dedicated 
+  infrastructure with exact timing guarantees
+- Student subscription regional restrictions affected 
+  both Azure Automation and Function App deployment — 
+  documented as known limitation
+- False positives in automated systems can cause real 
+  damage — the environment tag safety filter and 
+  human approval step exist specifically to prevent this
