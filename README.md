@@ -164,3 +164,47 @@ the final deployment step.
 
 ### Your 30-second interview pitch
 I built an Azure cost waste detector that scans a subscription for orphaned resources, matches each finding to its owner via tags, and routes targeted alerts automatically. For idle dev VMs it sends an approval email — if the owner doesn't respond within 5 minutes, the VM deallocates automatically. I hit real bugs during the build including a false positive on an active OS disk and invisible trailing spaces in tag keys — both found and fixed independently. The whole pipeline runs automatically via GitHub Actions with Azure Logic Apps handling the email and shutdown flows."
+
+
+## What I Couldn't Complete & Why
+
+**Azure Automation Runbook:**
+Planned for VM shutdown automation but student subscription 
+blocks Automation Account creation outside 6 allowed regions, 
+none of which supported my resource group location.
+Solution: replaced with Logic Apps ARM connector — 
+actually simpler and eliminated a service dependency.
+
+**Azure Functions Deployment:**
+Timer trigger implemented and tested locally with correct 
+behavior. Student subscription network restrictions caused 
+503 errors during deployment to Linux Consumption plan.
+Production fix: deploy to paid subscription or use 
+Azure DevOps pipeline for deployment.
+
+**GitHub Actions Exact Timing:**
+Free tier schedules delayed 15-60 minutes — not suitable 
+for time-critical 6pm VM shutdown detection.
+Production fix: Azure Functions timer trigger runs on 
+dedicated infrastructure with exact timing.
+
+**Email Spam Filtering:**
+Waste alert emails land in Gmail spam folder.
+Production fix: Azure Communication Services with 
+verified SPF/DKIM records on company domain.
+
+## What I Learned From Failures
+
+- Student subscription restrictions teach you to design 
+  around constraints — the Logic Apps ARM connector 
+  replacement is actually more production-appropriate 
+  than a runbook would have been
+- False positives in automated systems are dangerous — 
+  one wrong field path (`managedBy` inside `properties` 
+  vs top-level) could have triggered accidental VM shutdown
+- Invisible trailing spaces in Azure portal tag keys 
+  caused silent detection failures — defensive coding 
+  (.strip().lower()) is not optional
+- Platform limitations (GitHub Actions timing, student 
+  subscription regions) are real engineering constraints, 
+  not just exam questions
