@@ -147,7 +147,11 @@ the final deployment step.
 ![Waste Report](docs/screenshots/waste-report.png)
 
 ### Waste Alert Email
-![Waste Alert Email](docs/screenshots/waste-alert-email.png)
+![Waste Alert Email](docs/screenshots/waste-alert-email1.png)
+
+### Waste Alert Email
+![Waste Alert Email](docs/screenshots/waste-alert-email2.png)
+
 
 ### VM Approval Email
 ![VM Approval Email](docs/screenshots/vm-approval-email.png)
