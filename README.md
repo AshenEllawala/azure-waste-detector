@@ -161,3 +161,6 @@ the final deployment step.
 
 ### GitHub Actions Scheduled Runs
 ![GitHub Actions](docs/screenshots/github-actions.png)
+
+### Your 30-second interview pitch
+I built an Azure cost waste detector that scans a subscription for orphaned resources, matches each finding to its owner via tags, and routes targeted alerts automatically. For idle dev VMs it sends an approval email — if the owner doesn't respond within 5 minutes, the VM deallocates automatically. I hit real bugs during the build including a false positive on an active OS disk and invisible trailing spaces in tag keys — both found and fixed independently. The whole pipeline runs automatically via GitHub Actions with Azure Logic Apps handling the email and shutdown flows."
