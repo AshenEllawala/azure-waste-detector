@@ -2,7 +2,7 @@ name: Evening VM Scanner
 
 on:
   schedule:
-    - cron: "40 10 * * *"
+    - cron: "50 16 * * *"
 
 jobs:
   scan:
