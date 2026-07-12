@@ -139,3 +139,21 @@ the final deployment step.
 - False positives in automated systems can cause real 
   damage — the environment tag safety filter and 
   human approval step exist specifically to prevent this
+
+
+  ## Evidence
+
+### Waste Report Output
+![Waste Report](docs/screenshots/waste-report.png)
+
+### Waste Alert Email
+![Waste Alert Email](docs/screenshots/waste-alert-email.png)
+
+### VM Approval Email
+![VM Approval Email](docs/screenshots/vm-approval-email.png)
+
+### VM Shutdown Email
+![VM Approval Email](docs/screenshots/vm-shutdown-email.png)
+
+### GitHub Actions Scheduled Runs
+![GitHub Actions](docs/screenshots/github-actions.png)
