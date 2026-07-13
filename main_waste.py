@@ -3,6 +3,7 @@ from scanner.costs import get_resource_costs
 from scanner.report import generate_report
 from scanner.advisor import get_advisor_recommendations
 from scanner.alerts import send_waste_alert
+from scanner.log_analytics import write_waste_findings
 
 def main():
     print("Starting Azure Waste Scanner - Morning Run...")
@@ -28,6 +29,10 @@ def main():
         
         if finding['type'] != 'Idle Dev/Test VM':
             send_waste_alert(finding, cost)
+    print("\nWriting findings to Log Analytics...")
+    write_waste_findings(all_findings, cost_map)
 
 if __name__ == "__main__":
     main()
+    # Step 7: write findings to Log Analytics
+    
