@@ -208,3 +208,24 @@ verified SPF/DKIM records on company domain.
 - Platform limitations (GitHub Actions timing, student 
   subscription regions) are real engineering constraints, 
   not just exam questions
+
+  ## Grafana Dashboard
+
+Real-time waste monitoring dashboard connected to 
+Azure Log Analytics showing:
+
+- Total monthly waste cost
+- Total wasteful resources detected
+- Idle VMs count
+- Orphaned resources count
+- Waste breakdown by resource type (pie chart)
+- Waste cost by owner (bar chart)
+- Recent findings table with cost thresholds
+
+Every scanner run writes findings to Log Analytics 
+automatically. Dashboard refreshes every 5 minutes.
+
+Tech: Grafana + Azure Monitor data source + 
+Log Analytics custom logs (AzureWasteFindings_CL)
+
+![Grafana Dashboard](docs/screenshots/grafana-dashboard.png)
